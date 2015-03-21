@@ -34,7 +34,7 @@ class Game
 
 	def spot_is_taken?(spot)
 		
-		if (@grid[spot-1] == "X" || @grid[spot-1] == "O") 
+		if (@grid[spot] == "X" || @grid[spot] == "O") 
 			return true
 		else
 			return false
@@ -89,18 +89,6 @@ class Game
 
 	end
 
-	def is_draw?
-
-		if @grid.join.to_s.scan(/\d/).empty?
-			true
-		else
-			false
-		end
-
-
-
-	end
-
 	def print_grid
 
 			l = "----------"
@@ -136,23 +124,17 @@ class Game
 	end
 
 	def get_move(player)
-
 		puts "What is your move, Player #{player} (1-9)?  >> "
-		move = gets.chomp.to_i
-
-		while (move > 9 || move < 1)
-
-			puts "I'm sorry, that selection is out of bounds!"
-			puts "What is your move, Player #{player} (1-9)?  >> "
-			move = gets.chomp.to_i
-		end
-		while spot_is_taken?(move) 
-			puts "I'm sorry, That spot is taken!"
-			puts "What is your move, Player #{player} (1-9)?  >> "
-			move = gets.chomp.to_i
-		end
+		
+		while move = gets.chomp.to_i 
+			if !spot_is_taken?(move)
+				break
+			else
+				puts "I'm sorry, that spot is taken! Try again."
+				puts "What is your move, Player #{player} (1-9)?  >> "
+			
+			end
 		return move
-
 		
 	end
 
@@ -160,38 +142,42 @@ class Game
 
 	def play_game(player)
 
-		
+		#player = "X"
 		over = false
+
 		print_grid
 
 		until over  
 
 			move = get_move(player)
 			
-			update_grid(player, move)
+				update_grid(player, move)
 				
-			print_grid
+				print_grid
 
 						if is_winner? (player)
 
 							puts "GAME OVER! YOU WIN, #{player}!"
 							over = true
-							break
 						end
 			
-						if is_draw?
-							puts "It's a DRAW!"
-							over = true
-						end
 
 			player = switch_players(player)
-
 		end
 
+
+
+
 	end
+
+
+
+	
+
 
 end
 
 g = Game.new
-
+#puts g.grid[0]
 g.play_game("X")
+
