@@ -192,6 +192,3 @@ class Game
 
 end
 
-g = Game.new
-
-g.play_game("X")
